@@ -223,7 +223,7 @@ namespace WpfApplication1
                 isDownActive = false;
             }
 
-            headPreviousPosition = head.Y;
+            // headPreviousPosition = head.Y;
             
         }
 
