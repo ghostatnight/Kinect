@@ -58,7 +58,7 @@ namespace WpfApplication1
             kinect.Start();
 
         }
-/*
+
         private void kinect_AllFramesReady(object sender, AllFramesReadyEventArgs e)
         {
             using (ColorImageFrame colorFrame = e.OpenColorImageFrame())
@@ -76,7 +76,7 @@ namespace WpfApplication1
                 image1.Source = BitmapSource.Create(colorFrame.Width,colorFrame.Height,96, 96, PixelFormats.Bgr32, null, pixels, stride);
             }
         }
-*/
+
         private void kinect_SkeletonFrameReady(object sender, SkeletonFrameReadyEventArgs e)
         {
             labelIsSkeletonTracked.Visibility = System.Windows.Visibility.Hidden;
@@ -206,7 +206,7 @@ namespace WpfApplication1
             {
                 isUpActive = false;
             }
-
+            // A new motion needed
             if ((head.Y - headPreviousPosition) > JumpDiffThreadhold)
             {
                 if (!isDownActive)
