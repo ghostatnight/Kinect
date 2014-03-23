@@ -33,7 +33,8 @@ namespace WpfApplication1
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            labelIsSkeletonTracked.Visibility = System.Windows.Visibility.Hidden;
+            labelIsSkeletonTracked1.Visibility = System.Windows.Visibility.Hidden;
+            labelIsSkeletonTracked2.Visibility = System.Windows.Visibility.Hidden;
 
             kinect = KinectSensor.KinectSensors[0];
             if (kinect == null)
@@ -54,7 +55,7 @@ namespace WpfApplication1
             };
             kinect.SkeletonStream.Enable(parameters);
             kinect.SkeletonFrameReady += new EventHandler<SkeletonFrameReadyEventArgs>(kinect_SkeletonFrameReady);
-            //kinect.AllFramesReady += new EventHandler<AllFramesReadyEventArgs>(kinect_AllFramesReady);
+            kinect.AllFramesReady += new EventHandler<AllFramesReadyEventArgs>(kinect_AllFramesReady);
             kinect.Start();
 
         }
@@ -79,7 +80,8 @@ namespace WpfApplication1
 
         private void kinect_SkeletonFrameReady(object sender, SkeletonFrameReadyEventArgs e)
         {
-            labelIsSkeletonTracked.Visibility = System.Windows.Visibility.Hidden;
+            labelIsSkeletonTracked1.Visibility = System.Windows.Visibility.Hidden;
+            labelIsSkeletonTracked2.Visibility = System.Windows.Visibility.Hidden;
 
             if (isWindowsClosing)
             {
@@ -112,15 +114,28 @@ namespace WpfApplication1
                             break;
                     }
                 }
+                countText.Text = string.Format("{0}",count);
 
-                Skeleton leftSkeleton = skeletons[0].Position.X < skeletons[1].Position.X ? skeletons[0] : skeletons[1];
-                Skeleton rightSkeleton = skeletons[0].Position.X > skeletons[1].Position.X ? skeletons[0] : skeletons[1];
-
-                if (leftSkeleton != null && rightSkeleton != null)
+                if (count == 2)
                 {
-                    labelIsSkeletonTracked.Visibility = System.Windows.Visibility.Visible;
-                    mappingGesture2Keyboard(leftSkeleton,false);
-                    mappingGesture2Keyboard(rightSkeleton, true);
+                    Skeleton leftSkeleton = skeletons[idSkeleton[0]].Position.X < skeletons[idSkeleton[1]].Position.X
+                        ? skeletons[idSkeleton[0]] : skeletons[idSkeleton[1]];
+                    Skeleton rightSkeleton = skeletons[idSkeleton[0]].Position.X >= skeletons[idSkeleton[1]].Position.X
+                        ? skeletons[idSkeleton[0]] : skeletons[idSkeleton[1]];
+
+                    if (leftSkeleton != null && rightSkeleton == null)
+                    {
+                        labelIsSkeletonTracked1.Visibility = System.Windows.Visibility.Visible;
+                    }
+                    else if (leftSkeleton == null && rightSkeleton != null)
+                    {
+                        labelIsSkeletonTracked2.Visibility = System.Windows.Visibility.Visible;
+                    }
+                    else if (leftSkeleton != null && rightSkeleton != null)
+                    {
+                        mappingGesture2Keyboard(leftSkeleton, true);
+                        mappingGesture2Keyboard(rightSkeleton, false);
+                    }
                 }
             }
         }
@@ -206,7 +221,7 @@ namespace WpfApplication1
             {
                 isUpActive = false;
             }
-            // A new motion needed
+            /*/ A new motion needed
             if ((head.Y - headPreviousPosition) > JumpDiffThreadhold)
             {
                 if (!isDownActive)
@@ -223,8 +238,8 @@ namespace WpfApplication1
                 isDownActive = false;
             }
 
-            // headPreviousPosition = head.Y;
-            
+            headPreviousPosition = head.Y;
+            */
         }
 
         private void Window_Unloaded(object sender, RoutedEventArgs e)

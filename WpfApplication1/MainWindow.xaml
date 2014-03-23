@@ -4,7 +4,10 @@
         xmlns:WpfViewers="clr-namespace:Microsoft.Samples.Kinect.WpfViewers;assembly=Microsoft.Samples.Kinect.WpfViewers" xmlns:k="http://schemas.microsoft.com/kinect/2013" x:Class="WpfApplication1.MainWindow"
         Title="MainWindow" Height="350" Width="525" Loaded="Window_Loaded" Unloaded="Window_Unloaded">
     <Grid>
-        <Label x:Name="labelIsSkeletonTracked" Content="OK!" HorizontalAlignment="Left" Margin="380,211,0,0" VerticalAlignment="Top"/>
+        <Label x:Name="labelIsSkeletonTracked1" Content="right detected" HorizontalAlignment="Left" Margin="380,211,0,0" VerticalAlignment="Top" Width="101"/>
         <Image x:Name="image1" HorizontalAlignment="Left" Height="137" Margin="105,55,0,0" VerticalAlignment="Top" Width="185"/>
+        <Label x:Name="labelIsSkeletonTracked_Copy" HorizontalAlignment="Left" Margin="144,211,0,0" VerticalAlignment="Top"/>
+        <Label x:Name="labelIsSkeletonTracked2" Content="left detected" HorizontalAlignment="Left" Margin="129,211,0,0" VerticalAlignment="Top" Width="101"/>
+        <TextBox x:Name="countText" HorizontalAlignment="Left" Height="23" Margin="253,280,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="120"/>
     </Grid>
 </Window>
