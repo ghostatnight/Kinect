@@ -1,11 +1,15 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2012
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WpfApplication1", "WpfApplication1\WpfApplication1.csproj", "{D413514C-B4CA-4D76-9F51-ED6942383D61}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Microsoft.Samples.Kinect.WpfViewers", "..\..\..\KinectWpfViewers\Microsoft.Samples.Kinect.WpfViewers.csproj", "{4DE23893-27E7-423F-9BB6-BA21DAC2C45E}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Microsoft.Kinect.Toolkit", "..\..\..\Microsoft.Kinect.Toolkit\Microsoft.Kinect.Toolkit.csproj", "{C6F9C31B-6130-4443-A5CC-EF0664552ECD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FlashControlLibrary", "FlashControlLibrary\FlashControlLibrary.csproj", "{50BA4168-658E-41EC-8D5E-EBF3AFD3AC53}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WpfKinectGame", "WpfApplication1\WpfKinectGame.csproj", "{D413514C-B4CA-4D76-9F51-ED6942383D61}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WpfFlashControlLibrary1", "WpfFlashControlLibrary1\WpfFlashControlLibrary1.csproj", "{C389F084-AE7F-43E6-A63F-AF104F3E9C69}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -13,10 +17,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{D413514C-B4CA-4D76-9F51-ED6942383D61}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{D413514C-B4CA-4D76-9F51-ED6942383D61}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{D413514C-B4CA-4D76-9F51-ED6942383D61}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{D413514C-B4CA-4D76-9F51-ED6942383D61}.Release|Any CPU.Build.0 = Release|Any CPU
 		{4DE23893-27E7-423F-9BB6-BA21DAC2C45E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{4DE23893-27E7-423F-9BB6-BA21DAC2C45E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4DE23893-27E7-423F-9BB6-BA21DAC2C45E}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -25,6 +25,18 @@ Global
 		{C6F9C31B-6130-4443-A5CC-EF0664552ECD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C6F9C31B-6130-4443-A5CC-EF0664552ECD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C6F9C31B-6130-4443-A5CC-EF0664552ECD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{50BA4168-658E-41EC-8D5E-EBF3AFD3AC53}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{50BA4168-658E-41EC-8D5E-EBF3AFD3AC53}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{50BA4168-658E-41EC-8D5E-EBF3AFD3AC53}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{50BA4168-658E-41EC-8D5E-EBF3AFD3AC53}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D413514C-B4CA-4D76-9F51-ED6942383D61}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D413514C-B4CA-4D76-9F51-ED6942383D61}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D413514C-B4CA-4D76-9F51-ED6942383D61}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D413514C-B4CA-4D76-9F51-ED6942383D61}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C389F084-AE7F-43E6-A63F-AF104F3E9C69}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C389F084-AE7F-43E6-A63F-AF104F3E9C69}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C389F084-AE7F-43E6-A63F-AF104F3E9C69}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C389F084-AE7F-43E6-A63F-AF104F3E9C69}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
