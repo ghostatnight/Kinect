@@ -10,6 +10,7 @@ using System.Security;
 using System.Security.Permissions;
 using System.ComponentModel;
 
+
 namespace WpfApplication1
 {
     class KeyboardToolkit
@@ -101,7 +102,7 @@ namespace WpfApplication1
             public static void Type(Key key)
             {
                 Press(key);
-                System.Threading.Thread.Sleep(100);
+                System.Threading.Thread.Sleep(5);
                 Release(key);
             }
 

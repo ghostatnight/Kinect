@@ -13,6 +13,8 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using Microsoft.Kinect;
+using Microsoft.Speech.AudioFormat;
+using Microsoft.Speech.Recognition;
 
 namespace WpfApplication1
 {
@@ -36,6 +38,7 @@ namespace WpfApplication1
             labelIsSkeletonTracked1.Visibility = System.Windows.Visibility.Hidden;
             labelIsSkeletonTracked2.Visibility = System.Windows.Visibility.Hidden;
 
+            //initialize kinect
             kinect = KinectSensor.KinectSensors[0];
             if (kinect == null)
             {
@@ -57,7 +60,90 @@ namespace WpfApplication1
             kinect.SkeletonFrameReady += new EventHandler<SkeletonFrameReadyEventArgs>(kinect_SkeletonFrameReady);
             kinect.AllFramesReady += new EventHandler<AllFramesReadyEventArgs>(kinect_AllFramesReady);
             kinect.Start();
+            actionchooseviavoice(sender,e);
 
+        }
+        private SpeechRecognitionEngine speechEngine;
+        private static RecognizerInfo GetKinectRecognizer()
+        {
+            foreach (RecognizerInfo recognizer in SpeechRecognitionEngine.InstalledRecognizers())
+            {
+                string value;
+                recognizer.AdditionalInfo.TryGetValue("Kinect", out value);
+                if ("True".Equals(value, StringComparison.OrdinalIgnoreCase) && "en-US".Equals(recognizer.Culture.Name, StringComparison.OrdinalIgnoreCase))
+                {
+                    return recognizer;
+                }
+            }
+
+            return null;
+        }
+
+        private void actionchooseviavoice(object sender, RoutedEventArgs e)
+        {
+            System.Threading.Thread.Sleep(400);
+            KinectAudioSource source = kinect.AudioSource;
+            source.EchoCancellationMode = EchoCancellationMode.None;
+            source.AutomaticGainControlEnabled = false;
+            RecognizerInfo ri = GetKinectRecognizer();
+            if (ri == null)
+            {
+                MessageBox.Show("could not find kinect speech recognizer.");
+                return;
+            }
+
+            this.speechEngine = new SpeechRecognitionEngine(ri.Id);
+
+            var action = new Choices();
+            action.Add(new SemanticResultValue("shoot", "SHOOT"));
+            action.Add(new SemanticResultValue("attack", "ATTACK"));
+
+            var gb = new GrammarBuilder { Culture = ri.Culture };
+            gb.Append(action);
+            var g = new Grammar(gb);
+            speechEngine.LoadGrammar(g);
+
+            speechEngine.SpeechRecognized += SpeechRecognized;
+            speechEngine.SpeechRecognitionRejected += SpeechRejected;
+
+            speechEngine.SetInputToAudioStream(
+                    kinect.AudioSource.Start(), new SpeechAudioFormatInfo(EncodingFormat.Pcm, 16000, 16, 1, 32000, 2, null));
+            speechEngine.RecognizeAsync(RecognizeMode.Multiple);
+        }
+
+
+
+        private void SpeechRecognized(object sender, SpeechRecognizedEventArgs e)
+        {
+            // Speech utterance confidence below which we treat speech as if it hadn't been heard
+            const double ConfidenceThreshold = 0.3;
+
+            if (e.Result.Confidence >= ConfidenceThreshold)
+            {
+                switch (e.Result.Semantics.Value.ToString())
+                {
+                    case "SHOOT":
+                        //System.Windows.Forms.SendKeys.SendWait("sdsdj");
+                        KeyboardToolkit.Keyboard.Type(Key.S);
+                        KeyboardToolkit.Keyboard.Type(Key.D);
+                    //    KeyboardToolkit.Keyboard.Type(Key.S);
+                   //     KeyboardToolkit.Keyboard.Type(Key.D);
+                        KeyboardToolkit.Keyboard.Type(Key.K);
+                        break;
+
+                    case "ATTACK":
+                        System.Windows.Forms.SendKeys.SendWait("{W}");
+                        break;
+
+                   
+                }
+            }
+        }
+
+
+        private void SpeechRejected(object sender, SpeechRecognitionRejectedEventArgs e)
+        {
+           
         }
 
         private void kinect_AllFramesReady(object sender, AllFramesReadyEventArgs e)
@@ -123,18 +209,21 @@ namespace WpfApplication1
                     Skeleton rightSkeleton = skeletons[idSkeleton[0]].Position.X >= skeletons[idSkeleton[1]].Position.X
                         ? skeletons[idSkeleton[0]] : skeletons[idSkeleton[1]];
 
-                    if (leftSkeleton != null && rightSkeleton == null)
+                    if (leftSkeleton != null && rightSkeleton != null)
                     {
                         labelIsSkeletonTracked1.Visibility = System.Windows.Visibility.Visible;
-                    }
-                    else if (leftSkeleton == null && rightSkeleton != null)
-                    {
-                        labelIsSkeletonTracked2.Visibility = System.Windows.Visibility.Visible;
-                    }
-                    else if (leftSkeleton != null && rightSkeleton != null)
-                    {
                         mappingGesture2Keyboard(leftSkeleton, true);
                         mappingGesture2Keyboard(rightSkeleton, false);
+                    }
+                }
+                else if (count == 1)
+                {
+                    Skeleton leftSkeleton = skeletons[idSkeleton[0]];
+
+                    if (leftSkeleton != null)
+                    {
+                        labelIsSkeletonTracked2.Visibility = System.Windows.Visibility.Visible;
+                        mappingGesture2Keyboard(leftSkeleton, true);
                     }
                 }
             }
@@ -144,5 +233,6 @@ namespace WpfApplication1
         {
             kinect.Stop();
         }
+
     }
 }

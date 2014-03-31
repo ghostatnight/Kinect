@@ -15,23 +15,23 @@ namespace WpfApplication1
 {
     public partial class MainWindow : Window
     {
-        private const double ArmRaisedThreadhold = 0.2;
+        private const double ArmRaisedThreadhold = 0.1;
         private const double ArmStretchedThreadhold = 0.4;
         private const double JumpDiffThreadhold = 0.05;
         private const double ArmExtendedThreadhold = 0.35;
         private const double HandkneeThreadhold = 0.05;
-        private const double FootRaisedTheadhold = 0.3;
-        private const double FootStretchedTheadhold = 0.35;
-        private double headPreviousPosition = 1.6;
+        private const double FootRaisedTheadhold = 0.2;
+        private const double FootStretchedTheadhold = 0.3;
+        //private double headPreviousPosition = 1.6;
 
-        private bool isRightActive = false;
-        private bool isLeftActive = false;
+        //private bool isRightActive = false;
+        //private bool isLeftActive = false;
         private bool isUpActive = false;
         private bool isDownActive = false;
         private bool isRightHandExtendActive = false;
         private bool isLeftHandExtendActive = false;
-        private bool isRightFootExtendActive = false;
-        private bool isLeftFootExtendActive = false;
+        //private bool isRightFootExtendActive = false;
+        //private bool isLeftFootExtendActive = false;
         private bool isRightFootRiseActive = false;
         private bool isLeftFootRiseActive = false;
 
@@ -54,17 +54,14 @@ namespace WpfApplication1
             bool isLeftHandRaised = (leftHand.Y - head.Y) > ArmRaisedThreadhold;
             bool isRightHandStretched = (rightHand.X - rightshoulder.X) > ArmStretchedThreadhold;
             bool isLeftHandStretched = (leftshoulder.X - leftHand.X) > ArmStretchedThreadhold;
-            bool isRightHandExtended = (rightHand.Z - rightshoulder.Z) > ArmExtendedThreadhold;
-            bool isLeftHandExtended = (leftHand.Z - leftshoulder.Z) > ArmExtendedThreadhold;
+            bool isRightHandExtended = (rightshoulder.Z - rightHand.Z) > ArmExtendedThreadhold;
+            bool isLeftHandExtended = (leftshoulder.Z - leftHand.Z) > ArmExtendedThreadhold;
             bool isLeftKneeDown = (leftHand.Y - leftknee.Y) < HandkneeThreadhold;
             bool isRightKneeDown = (rightHand.Y - rightknee.Y) < HandkneeThreadhold;
-            bool isLeftFootRised = (leftfoot.Y - hipleft.Y) > FootRaisedTheadhold;
-            bool isRightFootRised = (rightfoot.Y - hipright.Y) > FootRaisedTheadhold;
+            bool isLeftFootRised = (leftfoot.Y - rightfoot.Y) > FootRaisedTheadhold;
+            bool isRightFootRised = (rightfoot.Y - leftfoot.Y) > FootRaisedTheadhold;
             bool isLeftFootStretched = (hipleft.X - leftfoot.X) > FootStretchedTheadhold;
-            bool isRightFootStretched = (hipright.X - rightfoot.X) > FootStretchedTheadhold;
-
-
-
+            bool isRightFootStretched = (rightfoot.X - hipright.X) > FootStretchedTheadhold;
 
 
             /*          if (isRightHandStretched)
@@ -78,45 +75,31 @@ namespace WpfApplication1
             */
             if (isRightHandStretched)
             {
-                if (!isRightActive && !isLeftActive)
-                {
-                    isRightActive = true;
-                    if (!isLeft)
-                        System.Windows.Forms.SendKeys.SendWait("{Right}");
-                    else
-                        System.Windows.Forms.SendKeys.SendWait("{6}");
-                }
-            }
-            else
-            {
-                isRightActive = false;
+                if (isLeft)
+                    KeyboardToolkit.Keyboard.Type(Key.D);
+                //System.Windows.Forms.SendKeys.SendWait("{D}");
+                else
+                    System.Windows.Forms.SendKeys.SendWait("{Right}");
             }
 
             if (isLeftHandStretched)
             {
-                if (!isLeftActive && !isRightActive)
-                {
-                    isLeftActive = true;
-                    if (!isLeft)
-                        System.Windows.Forms.SendKeys.SendWait("{Left}");
-                    else
-                        System.Windows.Forms.SendKeys.SendWait("{4}");
-                }
-            }
-            else
-            {
-                isLeftActive = false;
+                if (isLeft)
+                    //System.Windows.Forms.SendKeys.SendWait("{A}");
+                    KeyboardToolkit.Keyboard.Type(Key.A);
+                else
+                    System.Windows.Forms.SendKeys.SendWait("{Left}");
             }
 
-            if (isLeftHandRaised && isRightHandRaised)
+            if (isLeftHandRaised || isRightHandRaised)
             {
                 if (!isUpActive)
                 {
                     isUpActive = true;
-                    if (!isLeft)
-                        System.Windows.Forms.SendKeys.SendWait("{Up}");
+                    if (isLeft)
+                        System.Windows.Forms.SendKeys.SendWait("{W}");
                     else
-                        System.Windows.Forms.SendKeys.SendWait("{8}");
+                        System.Windows.Forms.SendKeys.SendWait("{Up}");
                 }
             }
             else
@@ -129,10 +112,10 @@ namespace WpfApplication1
                 if (!isDownActive)
                 {
                     isDownActive = true;
-                    if (!isLeft)
-                        System.Windows.Forms.SendKeys.SendWait("{Down}");
+                    if (isLeft)
+                        System.Windows.Forms.SendKeys.SendWait("{D}");
                     else
-                        System.Windows.Forms.SendKeys.SendWait("{2}");
+                        System.Windows.Forms.SendKeys.SendWait("{Down}");
                 }
             }
             else
@@ -140,15 +123,15 @@ namespace WpfApplication1
                 isDownActive = false;
             }
 
-            if (isLeftHandExtended && !isRightHandExtended)
+            if (isLeftHandExtended)
             {
                 if (!isRightHandExtendActive && !isLeftHandExtendActive)
                 {
                     isLeftHandExtendActive = true;
-                    if (!isLeft)
-                        System.Windows.Forms.SendKeys.SendWait("{X}");
+                    if (isLeft)
+                        System.Windows.Forms.SendKeys.SendWait("{J}");
                     else
-                        System.Windows.Forms.SendKeys.SendWait("{N}");
+                        System.Windows.Forms.SendKeys.SendWait("{1}");
                 }
             }
             else
@@ -156,13 +139,13 @@ namespace WpfApplication1
                 isLeftHandExtendActive = false;
             }
 
-            if (!isLeftHandExtended && isLeftHandExtended)
+            if (isRightHandExtended)
             {
                 if (!isRightHandExtendActive && !isLeftHandExtendActive)
                 {
                     isRightHandExtendActive = true;
-                    if (!isLeft)
-                        System.Windows.Forms.SendKeys.SendWait("{Down}" + "{Right}" + "{X}");
+                    if (isLeft)
+                        System.Windows.Forms.SendKeys.SendWait("{U}");
                     else
                         System.Windows.Forms.SendKeys.SendWait("{2}" + "{6}" + "{N}");
                 }
@@ -177,8 +160,8 @@ namespace WpfApplication1
                 if (!isLeftFootRiseActive && !isRightFootRiseActive)
                 {
                     isLeftFootRiseActive = true;
-                    if (!isLeft)
-                        System.Windows.Forms.SendKeys.SendWait("{Down}" + "{Right}" + "{X}");
+                    if (isLeft)
+                        System.Windows.Forms.SendKeys.SendWait("{I}");
                     else
                         System.Windows.Forms.SendKeys.SendWait("{2}" + "{4}" + "{N}");
                 }
@@ -193,8 +176,8 @@ namespace WpfApplication1
                 if (!isLeftFootRiseActive && !isRightFootRiseActive)
                 {
                     isRightFootRiseActive = true;
-                    if (!isLeft)
-                        System.Windows.Forms.SendKeys.SendWait("{Right}" + "{Down}" + "{X}");
+                    if (isLeft)
+                        System.Windows.Forms.SendKeys.SendWait("{K}");
                     else
                         System.Windows.Forms.SendKeys.SendWait("{6}" + "{2}" + "{N}");
                 }
@@ -209,8 +192,8 @@ namespace WpfApplication1
                 if (!isLeftFootRiseActive && !isRightFootRiseActive)
                 {
                     isLeftFootRiseActive = true;
-                    if (!isLeft)
-                        System.Windows.Forms.SendKeys.SendWait("{Down}" + "{Down}" + "{X}");
+                    if (isLeft)
+                        System.Windows.Forms.SendKeys.SendWait("{K}");
                     else
                         System.Windows.Forms.SendKeys.SendWait("{2}" + "{2}" + "{N}");
                 }
