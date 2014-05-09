@@ -22,7 +22,6 @@ namespace WpfApplication1
         private const double HandkneeThreadhold = 0.05;
         private const double FootRaisedTheadhold = 0.2;
         private const double FootStretchedTheadhold = 0.3;
-        //private double headPreviousPosition = 1.6;
 
         //private bool isRightActive = false;
         //private bool isLeftActive = false;
@@ -43,55 +42,45 @@ namespace WpfApplication1
             SkeletonPoint centerHip = s.Joints[JointType.HipCenter].Position;
             SkeletonPoint leftHand = s.Joints[JointType.HandLeft].Position;
             SkeletonPoint rightHand = s.Joints[JointType.HandRight].Position;
+            SkeletonPoint leftelbow = s.Joints[JointType.ElbowLeft].Position;
+            SkeletonPoint rightelbow = s.Joints[JointType.ElbowRight].Position;
             SkeletonPoint leftfoot = s.Joints[JointType.FootLeft].Position;
             SkeletonPoint rightfoot = s.Joints[JointType.FootRight].Position;
             SkeletonPoint leftknee = s.Joints[JointType.AnkleLeft].Position;
             SkeletonPoint rightknee = s.Joints[JointType.AnkleRight].Position;
-            SkeletonPoint hipleft = s.Joints[JointType.HipLeft].Position;
-            SkeletonPoint hipright = s.Joints[JointType.HipRight].Position;
+            SkeletonPoint lefthip = s.Joints[JointType.HipLeft].Position;
+            SkeletonPoint righthip = s.Joints[JointType.HipRight].Position;
 
-            bool isRightHandRaised = (rightHand.Y - head.Y) > ArmRaisedThreadhold;
+            bool isUpArrow = (rightHand.Y - head.Y) > ArmRaisedThreadhold;
             bool isLeftHandRaised = (leftHand.Y - head.Y) > ArmRaisedThreadhold;
-            bool isRightHandStretched = (rightHand.X - rightshoulder.X) > ArmStretchedThreadhold;
-            bool isLeftHandStretched = (leftshoulder.X - leftHand.X) > ArmStretchedThreadhold;
-            bool isRightHandExtended = (rightshoulder.Z - rightHand.Z) > ArmExtendedThreadhold;
-            bool isLeftHandExtended = (leftshoulder.Z - leftHand.Z) > ArmExtendedThreadhold;
-            bool isLeftKneeDown = (leftHand.Y - leftknee.Y) < HandkneeThreadhold;
-            bool isRightKneeDown = (rightHand.Y - rightknee.Y) < HandkneeThreadhold;
-            bool isLeftFootRised = (leftfoot.Y - rightfoot.Y) > FootRaisedTheadhold;
-            bool isRightFootRised = (rightfoot.Y - leftfoot.Y) > FootRaisedTheadhold;
-            bool isLeftFootStretched = (hipleft.X - leftfoot.X) > FootStretchedTheadhold;
-            bool isRightFootStretched = (rightfoot.X - hipright.X) > FootStretchedTheadhold;
+            bool isRightArrow = (rightHand.X - rightshoulder.X) > ArmStretchedThreadhold;
+            bool isLeftArrow = (leftshoulder.X - leftHand.X) > ArmStretchedThreadhold;
+            bool isControl1 = (rightshoulder.Z - rightHand.Z) > ArmExtendedThreadhold;
+            bool isControl2 = (leftshoulder.Z - leftHand.Z) > ArmExtendedThreadhold;
+            bool isControl3 = (leftfoot.Y - rightfoot.Y) > FootRaisedTheadhold;
+            bool isControl4 = (rightfoot.Y - leftfoot.Y) > FootRaisedTheadhold;
+            bool isAct1 = (leftHand.Y - leftknee.Y) < HandkneeThreadhold;
+            bool isAct2 = (rightHand.Y - rightknee.Y) < HandkneeThreadhold;
+            bool isAct3 = (lefthip.X - leftfoot.X) > FootStretchedTheadhold;
+            bool isAct4 = (rightfoot.X - righthip.X) > FootStretchedTheadhold;
 
-
-            /*          if (isRightHandStretched)
-                            KeyboardToolkit.Keyboard.Type(Key.Right);
-
-                        if (isLeftHandStretched)
-                            KeyboardToolkit.Keyboard.Type(Key.Left);
-
-                        if (isLeftHandRaised && isRightHandRaised)
-                            KeyboardToolkit.Keyboard.Type(Key.Down);
-            */
-            if (isRightHandStretched)
+            if (isRightArrow)
             {
                 if (isLeft)
                     KeyboardToolkit.Keyboard.Type(Key.D);
-                //System.Windows.Forms.SendKeys.SendWait("{D}");
                 else
                     System.Windows.Forms.SendKeys.SendWait("{Right}");
             }
 
-            if (isLeftHandStretched)
+            if (isLeftArrow)
             {
                 if (isLeft)
-                    //System.Windows.Forms.SendKeys.SendWait("{A}");
                     KeyboardToolkit.Keyboard.Type(Key.A);
                 else
                     System.Windows.Forms.SendKeys.SendWait("{Left}");
             }
 
-            if (isLeftHandRaised || isRightHandRaised)
+            if (isLeftHandRaised || isUpArrow)
             {
                 if (!isUpActive)
                 {
@@ -107,7 +96,7 @@ namespace WpfApplication1
                 isUpActive = false;
             }
             // A new motion needed
-            if (isLeftKneeDown && isRightKneeDown)
+            if (isAct1 && isAct2)
             {
                 if (!isDownActive)
                 {
@@ -123,7 +112,7 @@ namespace WpfApplication1
                 isDownActive = false;
             }
 
-            if (isLeftHandExtended)
+            if (isControl2)
             {
                 if (!isRightHandExtendActive && !isLeftHandExtendActive)
                 {
@@ -139,7 +128,7 @@ namespace WpfApplication1
                 isLeftHandExtendActive = false;
             }
 
-            if (isRightHandExtended)
+            if (isControl1)
             {
                 if (!isRightHandExtendActive && !isLeftHandExtendActive)
                 {
@@ -155,7 +144,7 @@ namespace WpfApplication1
                 isRightHandExtendActive = false;
             }
 
-            if (isLeftFootRised)
+            if (isControl3)
             {
                 if (!isLeftFootRiseActive && !isRightFootRiseActive)
                 {
@@ -171,7 +160,7 @@ namespace WpfApplication1
                 isLeftFootRiseActive = false;
             }
 
-            if (isRightFootRised)
+            if (isControl4)
             {
                 if (!isLeftFootRiseActive && !isRightFootRiseActive)
                 {
@@ -184,24 +173,9 @@ namespace WpfApplication1
             }
             else
             {
-                isRightFootRised = false;
+                isControl4 = false;
             }
 
-            if (isLeftFootStretched)
-            {
-                if (!isLeftFootRiseActive && !isRightFootRiseActive)
-                {
-                    isLeftFootRiseActive = true;
-                    if (isLeft)
-                        System.Windows.Forms.SendKeys.SendWait("{K}");
-                    else
-                        System.Windows.Forms.SendKeys.SendWait("{2}" + "{2}" + "{N}");
-                }
-            }
-            else
-            {
-                isLeftFootRiseActive = false;
-            }
         }
     }
 

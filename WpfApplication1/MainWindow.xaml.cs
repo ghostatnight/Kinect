@@ -124,15 +124,15 @@ namespace WpfApplication1
                 {
                     case "SHOOT":
                         //System.Windows.Forms.SendKeys.SendWait("sdsdj");
-                        KeyboardToolkit.Keyboard.Type(Key.S);
-                        KeyboardToolkit.Keyboard.Type(Key.D);
-                    //    KeyboardToolkit.Keyboard.Type(Key.S);
-                   //     KeyboardToolkit.Keyboard.Type(Key.D);
-                        KeyboardToolkit.Keyboard.Type(Key.K);
+                        KeyboardToolkit.Keyboard.Type(Key.S,Key.D,Key.K);
+                        //KeyboardToolkit.Keyboard.Type(Key.S,Key.D);
+                        //KeyboardToolkit.Keyboard.Type(Key.S,Key.D);
+                        //KeyboardToolkit.Keyboard.Type(Key.J);
                         break;
 
                     case "ATTACK":
-                        System.Windows.Forms.SendKeys.SendWait("{W}");
+                        //System.Windows.Forms.SendKeys.SendWait("{W}");
+                        KeyboardToolkit.Keyboard.Type(Key.S,Key.K);
                         break;
 
                    

@@ -106,6 +106,33 @@ namespace WpfApplication1
                 Release(key);
             }
 
+            public static void Type(Key key1, Key key2)
+            {
+                Press(key1);
+                System.Threading.Thread.Sleep(20);
+                Press(key2);
+                System.Threading.Thread.Sleep(20);
+                Release(key1);
+                System.Threading.Thread.Sleep(20);
+                Release(key2);
+            }
+
+            public static void Type(Key key1, Key key2, Key key3)
+            {
+                Press(key1);
+                System.Threading.Thread.Sleep(20);
+                Press(key2);
+                System.Threading.Thread.Sleep(20);
+                Release(key1);
+                System.Threading.Thread.Sleep(10);
+                Press(key3);
+                System.Threading.Thread.Sleep(20);
+                Release(key2);
+                System.Threading.Thread.Sleep(10);
+                Release(key3);
+            }
+
+
             [PermissionSet(SecurityAction.Assert, Name = "FullTrust")]
             private static void SendKeyboardInput(Key key, bool press)
             {
